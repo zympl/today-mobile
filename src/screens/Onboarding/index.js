@@ -1,10 +1,20 @@
-import {View, Text} from 'react-native';
+import {View, Button} from 'react-native';
 import React from 'react';
+import {Navigation} from 'react-native-navigation';
 
-const Onborading = () => {
+const Onborading = props => {
   return (
     <View>
-      <Text>Onboarding</Text>
+      <Button
+        title="Login"
+        onPress={() => {
+          Navigation.push(props.componentId, {
+            component: {
+              name: 'Today',
+            },
+          });
+        }}
+      />
     </View>
   );
 };
