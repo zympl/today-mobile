@@ -3,7 +3,7 @@ import React from 'react';
 
 const Today = () => {
   return (
-    <View>
+    <View style={{justifyContent: 'center', alignContent: 'center', flex: 1}}>
       <Text>Today</Text>
     </View>
   );

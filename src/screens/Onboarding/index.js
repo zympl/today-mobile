@@ -2,15 +2,18 @@ import {View, Button} from 'react-native';
 import React from 'react';
 import {Navigation} from 'react-native-navigation';
 
-const Onborading = props => {
+import {screenOptions} from '@screens';
+
+const Onboarding = props => {
   return (
-    <View>
+    <View style={{justifyContent: 'center', alignContent: 'center', flex: 1}}>
       <Button
         title="Login"
         onPress={() => {
           Navigation.push(props.componentId, {
             component: {
               name: 'Today',
+              options: screenOptions,
             },
           });
         }}
@@ -19,4 +22,4 @@ const Onborading = props => {
   );
 };
 
-export default Onborading;
+export default Onboarding;

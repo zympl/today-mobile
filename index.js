@@ -1,6 +1,6 @@
 import {Navigation} from 'react-native-navigation';
 
-import {Onboarding, Today} from '@screens';
+import {Onboarding, screenOptions, Today} from '@screens';
 
 Navigation.registerComponent('Onboarding', () => Onboarding);
 Navigation.registerComponent('Today', () => Today);
@@ -13,6 +13,7 @@ Navigation.events().registerAppLaunchedListener(() => {
           {
             component: {
               name: 'Onboarding',
+              options: screenOptions,
             },
           },
         ],
