@@ -21,11 +21,10 @@ const Onboarding = props => {
   };
 
   return (
-    <View flex={1}>
+    <View flex={1} bg="bgGrey">
       <Header />
       <View
         flexDirection="row"
-        bg="white"
         flex={1}
         justifyContent="center"
         alignItems="center">
@@ -37,7 +36,7 @@ const Onboarding = props => {
           <AppleLogo />
         </SocialButton>
       </View>
-      <View height="headerHeight" bg="white" />
+      <View height="headerHeight" />
     </View>
   );
 };
