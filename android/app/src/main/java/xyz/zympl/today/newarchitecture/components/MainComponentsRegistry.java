@@ -1,4 +1,4 @@
-package com.today.newarchitecture.components;
+package xyz.zympl.today.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

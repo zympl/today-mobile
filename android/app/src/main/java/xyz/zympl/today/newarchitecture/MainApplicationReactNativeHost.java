@@ -1,4 +1,4 @@
-package com.today.newarchitecture;
+package xyz.zympl.today.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.EmptyReactNativeConfig;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.today.BuildConfig;
-import com.today.newarchitecture.components.MainComponentsRegistry;
-import com.today.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import xyz.zympl.today.BuildConfig;
+import xyz.zympl.today.newarchitecture.components.MainComponentsRegistry;
+import xyz.zympl.today.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 

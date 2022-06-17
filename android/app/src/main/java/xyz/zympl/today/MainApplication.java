@@ -1,6 +1,5 @@
-package com.today;
+package xyz.zympl.today;
 
-import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.reactnativenavigation.NavigationApplication;
@@ -9,8 +8,9 @@ import com.facebook.react.ReactNativeHost;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.config.ReactFeatureFlags;
-import com.facebook.soloader.SoLoader;
-import com.today.newarchitecture.MainApplicationReactNativeHost;
+import xyz.zympl.today.BuildConfig;
+
+import xyz.zympl.today.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 

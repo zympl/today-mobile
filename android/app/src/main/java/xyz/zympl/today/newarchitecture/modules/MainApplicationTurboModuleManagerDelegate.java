@@ -1,4 +1,4 @@
-package com.today.newarchitecture.modules;
+package xyz.zympl.today.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

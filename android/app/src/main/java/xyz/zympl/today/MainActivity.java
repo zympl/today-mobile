@@ -1,9 +1,10 @@
-package com.today;
+package xyz.zympl.today;
 
 import com.facebook.react.ReactActivity;
 import com.reactnativenavigation.NavigationActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
+import xyz.zympl.today.BuildConfig;
 
 public class MainActivity extends NavigationActivity {
 

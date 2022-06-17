@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "541837397965",
+    "project_id": "zympl-today",
+    "storage_bucket": "zympl-today.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541837397965:android:39a35d5cd848d301cf3e84",
+        "android_client_info": {
+          "package_name": "xyz.zympl.today"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541837397965-iam75a98jpc5rdvsln7iav6ebaqe28kh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.zympl.today",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "541837397965-rbh0p6gpd6ed0qqc29dp243cuhig8sks.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALwMm66nRY3wkrnzA_wNmcgxyTSQsgRcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541837397965-rbh0p6gpd6ed0qqc29dp243cuhig8sks.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
