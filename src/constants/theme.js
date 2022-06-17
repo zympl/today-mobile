@@ -56,6 +56,7 @@ const theme = {
     elevation: 5,
     shadowOffset: {width: 0, height: 0},
   },
+  activeOpacity: 0.7,
 };
 
 export default theme;

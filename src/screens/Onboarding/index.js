@@ -27,6 +27,7 @@ const Onboarding = props => {
         flexDirection="row"
         flex={1}
         justifyContent="center"
+        color="textPrimary"
         alignItems="center">
         <Text h2>Continue with</Text>
         <SocialButton mx="m" onPress={login}>
