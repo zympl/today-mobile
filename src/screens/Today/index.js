@@ -1,9 +1,13 @@
 import React from 'react';
+import RemixIcon from 'react-native-remix-icon';
+import {useTheme} from 'styled-components/native';
 
-import {View, Text, SafeAreaView} from '@views';
+import {View, Text, SafeAreaView, TouchableOpacity} from '@views';
+
 import Todo from './components/Todo';
 
 const Today = () => {
+  const theme = useTheme();
   const [todos, setTodos] = React.useState([
     {
       id: 1,
@@ -62,7 +66,51 @@ const Today = () => {
         </View>
       </SafeAreaView>
       <SafeAreaView bg="white">
-        <View height="xxl" width="100%"></View>
+        <View
+          height="xxl"
+          width="100%"
+          flexDirection="row"
+          justifyContent="space-between">
+          <TouchableOpacity
+            height="xxl"
+            width="xxl"
+            justifyContent="center"
+            alignItems="center">
+            <RemixIcon
+              name="arrow-left-circle-line"
+              size={24}
+              color={theme.colors.textPlaceholder}
+            />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            height="xxl"
+            justifyContent="center"
+            alignItems="center">
+            <View flexDirection="row">
+              <RemixIcon
+                name="file-copy-line"
+                size={16}
+                color={theme.colors.textPlaceholder}
+              />
+              <Text ml="s" p2 color="textPlaceholder">
+                Copy remaining task from last day
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            height="xxl"
+            width="xxl"
+            justifyContent="center"
+            alignItems="center">
+            <RemixIcon
+              name="arrow-right-circle-line"
+              size={24}
+              color={theme.colors.textPlaceholder}
+            />
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     </View>
   );
