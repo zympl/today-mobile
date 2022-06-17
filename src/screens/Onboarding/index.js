@@ -30,13 +30,14 @@ const Onboarding = props => {
         justifyContent="center"
         alignItems="center">
         <Text h2>Continue with</Text>
-        <SocialButton mx="m" onPress={() => console.log('Google')}>
+        <SocialButton mx="m" onPress={login}>
           <GoogleLogo />
         </SocialButton>
-        <SocialButton onPress={() => console.log('Google')}>
+        <SocialButton onPress={login}>
           <AppleLogo />
         </SocialButton>
       </View>
+      <View height="headerHeight" bg="white" />
     </View>
   );
 };
