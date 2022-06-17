@@ -8,6 +8,7 @@ const TextInput = styled(RnTextInput)`
   ${typography};
   ${space};
   ${layout};
+  font-family: ${({theme}) => theme.fonts.normal};
 `;
 
 export default TextInput;

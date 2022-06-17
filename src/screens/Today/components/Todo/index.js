@@ -1,16 +1,30 @@
 import React from 'react';
+import RemixIcon from 'react-native-remix-icon';
 
 import {TextInput, TouchableOpacity, View} from '@views';
-import Checked from './Checked';
-import Unchecked from './Unchecked';
+import {useTheme} from 'styled-components/native';
 
 const Todo = ({item, onCheckedChange, onTextChange}) => {
+  const theme = useTheme();
+
   return (
     <View flexDirection="row" alignItems="center" mb="s">
       <TouchableOpacity
-        mr="m"
+        mr="s"
         onPress={() => onCheckedChange(item, !item.checked)}>
-        {item.checked ? <Checked /> : <Unchecked />}
+        {item.checked ? (
+          <RemixIcon
+            name="checkbox-blank-circle-fill"
+            color={theme.colors.textPlaceholder}
+            size={24}
+          />
+        ) : (
+          <RemixIcon
+            name="checkbox-blank-circle-line"
+            color={theme.colors.textPrimary}
+            size={24}
+          />
+        )}
       </TouchableOpacity>
       <TextInput
         flex={1}
