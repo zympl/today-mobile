@@ -3,8 +3,9 @@
     "baseUrl": ".",
     "paths": {
       "@screens": ["src/screens"],
-      "@views/*": ["src/views"],
-      "@components/*": ["src/components"]
+      "@views": ["src/views"],
+      "@components/*": ["src/components"],
+      "@assets/*": ["src/assets/*"]
     }
   }
 }

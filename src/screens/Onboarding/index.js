@@ -1,8 +1,10 @@
-import {View, Button} from 'react-native';
+import {SafeAreaView, Text, View} from '@views';
 import React from 'react';
 import {Navigation} from 'react-native-navigation';
 
 import {screenOptions} from '@screens';
+
+import Header from './components/Header';
 
 const Onboarding = props => {
   const login = () => {
@@ -15,12 +17,12 @@ const Onboarding = props => {
   };
 
   return (
-    <View
-      style={{
-        justifyContent: 'center',
-        alignContent: 'center',
-        flex: 1,
-      }}></View>
+    <View flex={1}>
+      <Header />
+      <View bg="white" flex={1} justifyContent="center" alignItems="center">
+        <Text>Continue with</Text>
+      </View>
+    </View>
   );
 };
 
