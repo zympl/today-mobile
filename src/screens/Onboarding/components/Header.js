@@ -1,22 +1,12 @@
 import {SafeAreaView, View} from '@views';
 import React from 'react';
-import {StyleSheet} from 'react-native';
 
 import TodayLogo from '@assets/images/TodayLogo';
-
-const style = StyleSheet.create({
-  header: {
-    shadowColor: '#494949',
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    zIndex: 999,
-    elevation: 5,
-  },
-});
+import theme from '@constants/theme';
 
 const Header = props => {
   return (
-    <SafeAreaView bg="white" style={style.header}>
+    <SafeAreaView bg="white" style={theme.shadow}>
       <View
         width="100%"
         height="headerHeight"

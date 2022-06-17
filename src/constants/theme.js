@@ -6,6 +6,7 @@ const theme = {
     textPrimary: '#28292B',
     textSecondary: '#494949',
     textPlaceholder: '#A4A4A4',
+    primaryHoverBg: '#BCE2DC',
   },
   fontSizes: {
     h1: '32px',
@@ -20,6 +21,10 @@ const theme = {
     h3: '32px',
     p1: '20px',
     p2: '16px',
+  },
+  fonts: {
+    normal: 'Rubik-Regular',
+    bold: 'Rubik-Bold',
   },
   space: {
     xxs: '2px',
@@ -39,6 +44,17 @@ const theme = {
     xl: '32px',
     xxl: '48px',
     headerHeight: '56px',
+  },
+  radii: {
+    m: '6px',
+  },
+  shadow: {
+    shadowColor: '#494949',
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    zIndex: 999,
+    elevation: 5,
+    shadowOffset: {width: 0, height: 0},
   },
 };
 
