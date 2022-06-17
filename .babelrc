@@ -8,7 +8,8 @@
           "@screens": "./src/screens",
           "@views": "./src/views",
           "@components": "./src/components",
-          "@assets": "./src/assets"
+          "@assets": "./src/assets",
+          "@constants": "./src/constants"
         }
       }
     ]

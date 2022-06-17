@@ -4,8 +4,9 @@
     "paths": {
       "@screens": ["src/screens"],
       "@views": ["src/views"],
-      "@components/*": ["src/components"],
-      "@assets/*": ["src/assets/*"]
+      "@components": ["src/components"],
+      "@assets/*": ["src/assets/*"],
+      "@constants/*": ["src/constants/*"]
     }
   }
 }

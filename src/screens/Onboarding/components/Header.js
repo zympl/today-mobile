@@ -19,7 +19,7 @@ const Header = props => {
     <SafeAreaView bg="white" style={style.header}>
       <View
         width="100%"
-        height="56px"
+        height="headerHeight"
         justifyContent="center"
         alignItems="center">
         <TodayLogo />
