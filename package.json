@@ -12,7 +12,9 @@
   "dependencies": {
     "react": "17.0.2",
     "react-native": "0.68.2",
-    "react-native-navigation": "^7.28.0"
+    "react-native-navigation": "^7.28.0",
+    "react-native-remix-icon": "^0.3.0",
+    "react-native-svg": "^12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

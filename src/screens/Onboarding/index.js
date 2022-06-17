@@ -5,20 +5,22 @@ import {Navigation} from 'react-native-navigation';
 import {screenOptions} from '@screens';
 
 const Onboarding = props => {
+  const login = () => {
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'Today',
+        options: screenOptions,
+      },
+    });
+  };
+
   return (
-    <View style={{justifyContent: 'center', alignContent: 'center', flex: 1}}>
-      <Button
-        title="Login"
-        onPress={() => {
-          Navigation.push(props.componentId, {
-            component: {
-              name: 'Today',
-              options: screenOptions,
-            },
-          });
-        }}
-      />
-    </View>
+    <View
+      style={{
+        justifyContent: 'center',
+        alignContent: 'center',
+        flex: 1,
+      }}></View>
   );
 };
 
