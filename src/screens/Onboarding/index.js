@@ -35,7 +35,12 @@ const Onboarding = props => {
     }
   };
 
-  const loginWithApple = () => {};
+  const loginWithApple = () => {
+    Snackbar.show({
+      text: 'Apple login support is coming soon!',
+      duration: Snackbar.LENGTH_SHORT,
+    });
+  };
 
   return (
     <View flex={1} bg="bgGrey">
