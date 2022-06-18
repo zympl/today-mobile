@@ -1,13 +1,27 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import RemixIcon from 'react-native-remix-icon';
 
 import {TextInput, TouchableOpacity, View} from '@views';
 import {useTheme} from 'styled-components/native';
 
-const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
+const Todo = ({
+  item,
+  onCheckedChange,
+  onTextChange,
+  onDelete,
+  newTask,
+  focused,
+}) => {
   const theme = useTheme();
   const [focus, setFocus] = useState(false);
   const stopPropagation = useRef(false);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (focused) {
+      inputRef.current.focus();
+    }
+  }, [focused]);
 
   return (
     <View flexDirection="row" alignItems="center" mb="s">
@@ -29,6 +43,7 @@ const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
         )}
       </TouchableOpacity>
       <TextInput
+        ref={inputRef}
         flex={1}
         placeholder="Add a task"
         onFocus={() => setFocus(true)}
@@ -52,8 +67,8 @@ const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
           }
 
           if (nativeEvent.key === 'Enter') {
-            newTask(item);
             stopPropagation.current = true;
+            newTask(item);
           }
         }}
       />

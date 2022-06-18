@@ -17,16 +17,38 @@ const Today = () => {
   const [header, setHeader] = useState('Today');
   const [subtitle, setSubtitle] = useState(date.format('MMMM DD, YYYY'));
   const [copyButtonFocus, setCopyButtonFocus] = useState(false);
+  const [focusedTaskId, setFocusedTaskId] = useState(null);
 
   const user = firebase.auth().currentUser;
 
-  const createTask = async () => {
+  const generateTaskIndex = (task1, task2) => {
+    if (!task1 && !task2) {
+      return 0.1;
+    }
+    if (task1 && !task2) {
+      return task1.index + 0.1;
+    }
+    if (task1 && task2) {
+      return Math.random() * (task2.index - task1.index) + task1.index;
+    }
+  };
+
+  const createTask = async task => {
     try {
-      firestore()
+      const index = generateTaskIndex(
+        task,
+        task && todos[todos.indexOf(task) + 1],
+      );
+      const created = await firestore()
         .collection(user.uid)
         .doc('tasks')
         .collection(date.format('DD-MM-YYYY'))
-        .add({title: '', checked: false});
+        .add({
+          title: '',
+          checked: false,
+          index,
+        });
+      return created.id;
     } catch (error) {
       console.error(error);
       Snackbar.show({
@@ -38,7 +60,7 @@ const Today = () => {
 
   const updateTask = async (task, object) => {
     try {
-      firestore()
+      await firestore()
         .collection(user.uid)
         .doc('tasks')
         .collection(date.format('DD-MM-YYYY'))
@@ -58,7 +80,7 @@ const Today = () => {
       return;
     }
     try {
-      firestore()
+      await firestore()
         .collection(user.uid)
         .doc('tasks')
         .collection(date.format('DD-MM-YYYY'))
@@ -117,6 +139,7 @@ const Today = () => {
             ...doc.data(),
           });
         });
+        tasks.sort((a, b) => a.index - b.index);
         setTodos(tasks);
       });
 
@@ -179,7 +202,11 @@ const Today = () => {
                 onCheckedChange={onCheckedChange}
                 onTextChange={onTextChange}
                 onDelete={deleteTask}
-                newTask={createTask}
+                focused={item.id === focusedTaskId}
+                newTask={async task => {
+                  const id = await createTask(task);
+                  setFocusedTaskId(id);
+                }}
               />
             ))}
 
