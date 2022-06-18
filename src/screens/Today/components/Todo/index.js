@@ -42,7 +42,6 @@ const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
         fontSize="p1"
         value={item.title}
         multiline
-        // numberOfLines={1}
         color={
           focus ? 'primary' : item.checked ? 'textPlaceholder' : 'textPrimary'
         }

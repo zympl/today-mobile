@@ -224,7 +224,7 @@ const Today = () => {
           <TouchableOpacity
             onPress={handlePress}
             onLongPress={handleLongPress}
-            delayLongPress={500}
+            delayLongPress={1000}
             onPressIn={() => setCopyButtonFocus(true)}
             onPressOut={() => setCopyButtonFocus(false)}
             height="xxl"
