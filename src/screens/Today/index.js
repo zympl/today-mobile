@@ -4,6 +4,7 @@ import {useTheme} from 'styled-components/native';
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import dayjs from 'dayjs';
+import {Snackbar} from 'react-native-snackbar';
 
 import {View, Text, SafeAreaView, TouchableOpacity} from '@views';
 
@@ -16,6 +17,61 @@ const Today = () => {
   const [header, setHeader] = useState('Today');
   const [subtitle, setSubtitle] = useState(date.format('MMMM DD, YYYY'));
   const [copyButtonFocus, setCopyButtonFocus] = useState(false);
+
+  const user = firebase.auth().currentUser;
+
+  const createTask = async () => {
+    try {
+      firestore()
+        .collection(user.uid)
+        .doc('tasks')
+        .collection(date.format('DD-MM-YYYY'))
+        .add({title: '', checked: false});
+    } catch (error) {
+      console.error(error);
+      Snackbar.show({
+        text: 'Error creating task!',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+  };
+
+  const updateTask = async (task, object) => {
+    try {
+      firestore()
+        .collection(user.uid)
+        .doc('tasks')
+        .collection(date.format('DD-MM-YYYY'))
+        .doc(task.id)
+        .update(object);
+    } catch (error) {
+      console.error(error);
+      Snackbar.show({
+        text: 'Error updating task!',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+  };
+
+  const deleteTask = async task => {
+    if (todos.length === 1) {
+      return;
+    }
+    try {
+      firestore()
+        .collection(user.uid)
+        .doc('tasks')
+        .collection(date.format('DD-MM-YYYY'))
+        .doc(task.id)
+        .delete();
+    } catch (error) {
+      console.error(error);
+      Snackbar.show({
+        text: 'Error deleting task!',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+  };
 
   useEffect(() => {
     // Change header & subtitle
@@ -45,12 +101,15 @@ const Today = () => {
     }
 
     // Get data
-    const user = firebase.auth().currentUser;
     const subscriber = firestore()
       .collection(user.uid)
       .doc('tasks')
       .collection(date.format('DD-MM-YYYY'))
       .onSnapshot(snapshot => {
+        if (snapshot.size === 0) {
+          createTask();
+        }
+
         const tasks = [];
         snapshot.forEach(doc => {
           tasks.push({
@@ -65,13 +124,11 @@ const Today = () => {
   }, [date]);
 
   const onCheckedChange = (item, checked) => {
-    setTodos(todos.map(t => (t.id === item.id ? {...t, checked} : t)));
+    updateTask(item, {checked});
   };
 
   const onTextChange = (item, text) => {
-    setTodos(
-      todos.map(todo => (todo.id === item.id ? {...todo, title: text} : todo)),
-    );
+    updateTask(item, {title: text});
   };
 
   const nextDay = () => {
@@ -121,6 +178,8 @@ const Today = () => {
                 item={item}
                 onCheckedChange={onCheckedChange}
                 onTextChange={onTextChange}
+                onDelete={deleteTask}
+                newTask={createTask}
               />
             ))}
 
@@ -132,12 +191,7 @@ const Today = () => {
                 borderColor="primary"
                 borderStyle="dashed">
                 {todos.map(item => (
-                  <Todo
-                    key={item.id}
-                    item={item}
-                    onCheckedChange={onCheckedChange}
-                    onTextChange={onTextChange}
-                  />
+                  <Todo key={item.id} item={item} />
                 ))}
 
                 <Text textAlign="center" p2 color="primary">

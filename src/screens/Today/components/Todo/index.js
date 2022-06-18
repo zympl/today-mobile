@@ -1,12 +1,13 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import RemixIcon from 'react-native-remix-icon';
 
 import {TextInput, TouchableOpacity, View} from '@views';
 import {useTheme} from 'styled-components/native';
 
-const Todo = ({item, onCheckedChange, onTextChange}) => {
+const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
   const theme = useTheme();
   const [focus, setFocus] = useState(false);
+  const stopPropagation = useRef(false);
 
   return (
     <View flexDirection="row" alignItems="center" mb="s">
@@ -31,13 +32,30 @@ const Todo = ({item, onCheckedChange, onTextChange}) => {
         flex={1}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
-        onChangeText={text => onTextChange(item, text)}
+        onChangeText={text => {
+          if (!stopPropagation.current) {
+            onTextChange(item, text);
+          }
+        }}
         p="s"
         fontSize="p1"
         value={item.title}
+        multiline
+        // numberOfLines={1}
         color={
           focus ? 'primary' : item.checked ? 'textPlaceholder' : 'textPrimary'
         }
+        onKeyPress={({nativeEvent}) => {
+          stopPropagation.current = false;
+          if (nativeEvent.key === 'Backspace' && !item.title) {
+            onDelete(item);
+          }
+
+          if (nativeEvent.key === 'Enter') {
+            newTask(item);
+            stopPropagation.current = true;
+          }
+        }}
       />
     </View>
   );
