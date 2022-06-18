@@ -7,7 +7,7 @@ const View = styled(RnView)`
   ${flexbox};
   ${layout};
   ${space};
-  ${border}
+  ${border};
 `;
 
 export default View;

@@ -15,6 +15,7 @@ const Today = () => {
   const [todos, setTodos] = useState([]);
   const [header, setHeader] = useState('Today');
   const [subtitle, setSubtitle] = useState(date.format('MMMM DD, YYYY'));
+  const [copyButtonFocus, setCopyButtonFocus] = useState(false);
 
   useEffect(() => {
     // Change header & subtitle
@@ -84,7 +85,14 @@ const Today = () => {
     setDate(date.subtract(1, 'day'));
   };
 
-  const handleMainAction = () => {
+  const handleLongPress = () => {
+    if (date.isSame(dayjs(), 'day')) {
+      // Handle copy
+    }
+    setCopyButtonFocus(false);
+  };
+
+  const handlePress = () => {
     if (date.isSame(dayjs(), 'day')) {
       // Handle copy
     } else {
@@ -115,6 +123,28 @@ const Today = () => {
                 onTextChange={onTextChange}
               />
             ))}
+
+            {copyButtonFocus && date.isSame(dayjs(), 'day') && (
+              <View
+                p="s"
+                mt="l"
+                borderWidth="1px"
+                borderColor="primary"
+                borderStyle="dashed">
+                {todos.map(item => (
+                  <Todo
+                    key={item.id}
+                    item={item}
+                    onCheckedChange={onCheckedChange}
+                    onTextChange={onTextChange}
+                  />
+                ))}
+
+                <Text textAlign="center" p2 color="primary">
+                  Hold to copy
+                </Text>
+              </View>
+            )}
           </View>
         </View>
       </SafeAreaView>
@@ -138,7 +168,11 @@ const Today = () => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={handleMainAction}
+            onPress={handlePress}
+            onLongPress={handleLongPress}
+            delayLongPress={500}
+            onPressIn={() => setCopyButtonFocus(true)}
+            onPressOut={() => setCopyButtonFocus(false)}
             height="xxl"
             justifyContent="center"
             alignItems="center">
