@@ -4,7 +4,7 @@ import {useTheme} from 'styled-components/native';
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import dayjs from 'dayjs';
-import {Snackbar} from 'react-native-snackbar';
+import Snackbar from 'react-native-snackbar';
 
 import {View, Text, SafeAreaView, TouchableOpacity} from '@views';
 
@@ -21,6 +21,8 @@ const Today = () => {
   const [subtitle, setSubtitle] = useState(date.format('MMMM DD, YYYY'));
   const [copyButtonFocus, setCopyButtonFocus] = useState(false);
   const [focusedTaskId, setFocusedTaskId] = useState(null);
+  const [lastDaysIncompleteTasks, setLastDaysIncompleteTasks] = useState([]);
+  const [copied, setCopied] = useState(false);
 
   const user = firebase.auth().currentUser;
 
@@ -106,6 +108,36 @@ const Today = () => {
     }
   };
 
+  const fetchRemainingTasks = async () => {
+    try {
+      const remainingTasksSnapshot = await firestore()
+        .collection(user.uid)
+        .doc('tasks')
+        .collection(date.subtract(1, 'day').format('DD-MM-YYYY'))
+        .orderBy('index')
+        .get();
+
+      const remainingTasks = [];
+      remainingTasksSnapshot.forEach(doc => {
+        const data = doc.data();
+        if (
+          !data.checked &&
+          data.title.trim() &&
+          !todos.find(t => t.id === doc.id)
+        ) {
+          remainingTasks.push({...doc.data(), id: doc.id});
+        }
+      });
+      setLastDaysIncompleteTasks(remainingTasks);
+    } catch (error) {
+      console.log('error:::', error);
+      Snackbar.show({
+        text: 'Error fetching remaining tasks!',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+    }
+  };
+
   useEffect(() => {
     // Change header & subtitle
     setSubtitle(date.format('MMMM DD, YYYY'));
@@ -138,6 +170,7 @@ const Today = () => {
       .collection(user.uid)
       .doc('tasks')
       .collection(date.format('DD-MM-YYYY'))
+      .orderBy('index')
       .onSnapshot(snapshot => {
         if (snapshot.size === 0) {
           createTask();
@@ -150,12 +183,18 @@ const Today = () => {
             ...doc.data(),
           });
         });
-        tasks.sort((a, b) => a.index - b.index);
         setTodos(tasks);
       });
 
     return subscriber;
   }, [date]);
+
+  useEffect(() => {
+    // Get previous day incomplete tasks
+    if (todos.length && date.isSame(dayjs(), 'day')) {
+      fetchRemainingTasks();
+    }
+  }, [todos]);
 
   const onCheckedChange = (item, checked) => {
     updateTask(item, {checked});
@@ -178,15 +217,28 @@ const Today = () => {
 
   const handleLongPress = () => {
     if (date.isSame(dayjs(), 'day')) {
-      // Handle copy
+      const batch = firestore().batch();
+      lastDaysIncompleteTasks.forEach((task, i) => {
+        batch.set(
+          firestore()
+            .collection(user.uid)
+            .doc('tasks')
+            .collection(date.format('DD-MM-YYYY'))
+            .doc(task.id),
+          {
+            title: task.title,
+            index: todos[todos.length - 1].index + i * 0.1,
+            checked: false,
+          },
+        );
+      });
+      batch.commit();
     }
     setCopyButtonFocus(false);
   };
 
   const handlePress = () => {
-    if (date.isSame(dayjs(), 'day')) {
-      // Handle copy
-    } else {
+    if (!date.isSame(dayjs(), 'day')) {
       setDate(dayjs());
     }
   };
@@ -225,14 +277,18 @@ const Today = () => {
                 borderWidth="1px"
                 borderColor="primary"
                 borderStyle="dashed">
-                <FlatList
-                  data={todos}
-                  keyExtractor={item => item.id}
-                  renderItem={renderTask}
-                />
+                {!!lastDaysIncompleteTasks.length && (
+                  <FlatList
+                    data={lastDaysIncompleteTasks}
+                    keyExtractor={item => item.id}
+                    renderItem={renderTask}
+                  />
+                )}
 
                 <Text textAlign="center" p2 color="primary">
-                  Hold to copy
+                  {lastDaysIncompleteTasks.length
+                    ? 'Hold to copy'
+                    : 'No tasks to copy'}
                 </Text>
               </View>
             )}
