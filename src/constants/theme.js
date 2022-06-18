@@ -57,6 +57,7 @@ const theme = {
     shadowOffset: {width: 0, height: 0},
   },
   activeOpacity: 0.7,
+  disabledOpacity: 0.2,
 };
 
 export default theme;

@@ -9,7 +9,8 @@ const TouchableHighlight = styled(RnTouchableHighlight).attrs(props => ({
   ${color};
   ${space};
   ${layout};
-  ${border}
+  ${border};
+  ${props => (props.disabled ? `opacity: ${props.theme.disabledOpacity};` : '')}
 `;
 
 export default TouchableHighlight;

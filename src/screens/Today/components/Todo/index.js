@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import RemixIcon from 'react-native-remix-icon';
 
 import {TextInput, TouchableOpacity, View} from '@views';
@@ -6,6 +6,7 @@ import {useTheme} from 'styled-components/native';
 
 const Todo = ({item, onCheckedChange, onTextChange}) => {
   const theme = useTheme();
+  const [focus, setFocus] = useState(false);
 
   return (
     <View flexDirection="row" alignItems="center" mb="s">
@@ -28,11 +29,15 @@ const Todo = ({item, onCheckedChange, onTextChange}) => {
       </TouchableOpacity>
       <TextInput
         flex={1}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
         onChangeText={text => onTextChange(item, text)}
         p="s"
         fontSize="p1"
         value={item.title}
-        color={item.checked ? 'textPlaceholder' : 'textPrimary'}
+        color={
+          focus ? 'primary' : item.checked ? 'textPlaceholder' : 'textPrimary'
+        }
       />
     </View>
   );
