@@ -30,6 +30,7 @@ const Todo = ({item, onCheckedChange, onTextChange, onDelete, newTask}) => {
       </TouchableOpacity>
       <TextInput
         flex={1}
+        placeholder="Add a task"
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
         onChangeText={text => {
