@@ -9,6 +9,9 @@ import {Snackbar} from 'react-native-snackbar';
 import {View, Text, SafeAreaView, TouchableOpacity} from '@views';
 
 import Todo from './components/Todo';
+import {FlatList} from 'react-native';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 const Today = () => {
   const theme = useTheme();
@@ -80,6 +83,14 @@ const Today = () => {
       return;
     }
     try {
+      const arrayIndex = todos.indexOf(task);
+
+      if (arrayIndex > 0) {
+        setFocusedTaskId(todos[arrayIndex - 1].id);
+      } else {
+        setFocusedTaskId(todos[arrayIndex + 1].id);
+      }
+
       await firestore()
         .collection(user.uid)
         .doc('tasks')
@@ -180,35 +191,32 @@ const Today = () => {
     }
   };
 
+  const renderTask = ({item}) => (
+    <Todo
+      key={item.id}
+      item={item}
+      onCheckedChange={onCheckedChange}
+      onTextChange={onTextChange}
+      onDelete={deleteTask}
+      focused={item.id === focusedTaskId}
+      newTask={async task => {
+        const id = await createTask(task);
+        setFocusedTaskId(id);
+      }}
+    />
+  );
+
   return (
     <View bg="bgGrey" width="100%" height="100%">
       <SafeAreaView flex={1}>
         <View flex={1} p="m">
-          <View>
-            <Text h1 color="textPrimary">
-              {header}
-            </Text>
-            {!!subtitle && (
-              <Text mt="-12px" h3 color="textPlaceholder">
-                {subtitle}
-              </Text>
-            )}
-          </View>
+          <Header header={header} subtitle={subtitle} />
           <View flex={1} mt="l">
-            {todos.map(item => (
-              <Todo
-                key={item.id}
-                item={item}
-                onCheckedChange={onCheckedChange}
-                onTextChange={onTextChange}
-                onDelete={deleteTask}
-                focused={item.id === focusedTaskId}
-                newTask={async task => {
-                  const id = await createTask(task);
-                  setFocusedTaskId(id);
-                }}
-              />
-            ))}
+            <FlatList
+              data={todos}
+              keyExtractor={item => item.id}
+              renderItem={renderTask}
+            />
 
             {copyButtonFocus && date.isSame(dayjs(), 'day') && (
               <View
@@ -217,9 +225,11 @@ const Today = () => {
                 borderWidth="1px"
                 borderColor="primary"
                 borderStyle="dashed">
-                {todos.map(item => (
-                  <Todo key={item.id} item={item} />
-                ))}
+                <FlatList
+                  data={todos}
+                  keyExtractor={item => item.id}
+                  renderItem={renderTask}
+                />
 
                 <Text textAlign="center" p2 color="primary">
                   Hold to copy
@@ -229,67 +239,14 @@ const Today = () => {
           </View>
         </View>
       </SafeAreaView>
-      <SafeAreaView bg="white">
-        <View
-          height="xxl"
-          width="100%"
-          flexDirection="row"
-          justifyContent="space-between">
-          <TouchableOpacity
-            height="xxl"
-            width="xxl"
-            justifyContent="center"
-            onPress={previousDay}
-            alignItems="center">
-            <RemixIcon
-              name="arrow-left-circle-line"
-              size={24}
-              color={theme.colors.textPlaceholder}
-            />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={handlePress}
-            onLongPress={handleLongPress}
-            delayLongPress={1000}
-            onPressIn={() => setCopyButtonFocus(true)}
-            onPressOut={() => setCopyButtonFocus(false)}
-            height="xxl"
-            justifyContent="center"
-            alignItems="center">
-            <View flexDirection="row">
-              <RemixIcon
-                name={
-                  date.isSame(dayjs(), 'day')
-                    ? 'file-copy-line'
-                    : 'calendar-event-line'
-                }
-                size={16}
-                color={theme.colors.textPlaceholder}
-              />
-              <Text ml="s" p2 color="textPlaceholder">
-                {date.isSame(dayjs(), 'day')
-                  ? 'Copy remaining task from last day'
-                  : 'Today'}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            height="xxl"
-            width="xxl"
-            justifyContent="center"
-            onPress={nextDay}
-            disabled={date.isSame(dayjs(), 'day')}
-            alignItems="center">
-            <RemixIcon
-              name="arrow-right-circle-line"
-              size={24}
-              color={theme.colors.textPlaceholder}
-            />
-          </TouchableOpacity>
-        </View>
-      </SafeAreaView>
+      <Footer
+        date={date}
+        handlePress={handlePress}
+        handleLongPress={handleLongPress}
+        setCopyButtonFocus={setCopyButtonFocus}
+        nextDay={nextDay}
+        previousDay={previousDay}
+      />
     </View>
   );
 };

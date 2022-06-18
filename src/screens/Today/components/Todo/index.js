@@ -48,6 +48,7 @@ const Todo = ({
         placeholder="Add a task"
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}
+        scrollEnabled={false}
         onChangeText={text => {
           if (!stopPropagation.current) {
             onTextChange(item, text);
