@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import RemixIcon from 'react-native-remix-icon';
 import {useTheme} from 'styled-components/native';
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import dayjs from 'dayjs';
 import Snackbar from 'react-native-snackbar';
 
-import {View, Text, SafeAreaView, TouchableOpacity} from '@views';
+import {View, Text, SafeAreaView} from '@views';
 
 import Todo from './components/Todo';
 import {FlatList} from 'react-native';
@@ -14,7 +13,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 const Today = () => {
-  const theme = useTheme();
   const [date, setDate] = useState(dayjs());
   const [todos, setTodos] = useState([]);
   const [header, setHeader] = useState('Today');
@@ -22,7 +20,6 @@ const Today = () => {
   const [copyButtonFocus, setCopyButtonFocus] = useState(false);
   const [focusedTaskId, setFocusedTaskId] = useState(null);
   const [lastDaysIncompleteTasks, setLastDaysIncompleteTasks] = useState([]);
-  const [copied, setCopied] = useState(false);
 
   const user = firebase.auth().currentUser;
 

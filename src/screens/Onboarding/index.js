@@ -8,7 +8,7 @@ import {Navigation} from 'react-native-navigation';
 import GoogleLogo from '@assets/images/GoogleLogo';
 import AppleLogo from '@assets/images/AppleLogo';
 import {Text, View} from '@views';
-import {screenOptions} from '@screens';
+import {homeRoot} from '@constants/navigation';
 
 import Header from './components/Header';
 import SocialButton from './components/SocialButton';
@@ -20,12 +20,7 @@ const Onboarding = props => {
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
       await auth().signInWithCredential(googleCredential);
 
-      Navigation.push(props.componentId, {
-        component: {
-          name: 'Today',
-          options: screenOptions,
-        },
-      });
+      Navigation.setRoot(homeRoot);
     } catch (error) {
       console.error(error);
       Snackbar.show({
