@@ -67,7 +67,6 @@ const Footer = ({
           width="xxl"
           justifyContent="center"
           onPress={nextDay}
-          disabled={date.isSame(dayjs(), 'day')}
           alignItems="center">
           <RemixIcon
             name="arrow-right-circle-line"

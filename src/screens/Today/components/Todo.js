@@ -7,21 +7,28 @@ import {useTheme} from 'styled-components/native';
 const Todo = ({
   item,
   onCheckedChange,
-  onTextChange,
+  onSave,
   onDelete,
   newTask,
-  focused,
+  editing,
+  setEditing,
 }) => {
   const theme = useTheme();
   const [focus, setFocus] = useState(false);
-  const stopPropagation = useRef(false);
   const inputRef = useRef(null);
+  const [text, setText] = useState(item.title);
 
   useEffect(() => {
-    if (focused) {
+    if (editing) {
       inputRef.current.focus();
     }
-  }, [focused]);
+  }, [editing]);
+
+  useEffect(() => {
+    if (focus) {
+      setText(item.title);
+    }
+  }, [focus, item]);
 
   return (
     <View flexDirection="row" alignItems="center" mb="s">
@@ -46,29 +53,34 @@ const Todo = ({
         ref={inputRef}
         flex={1}
         placeholder="Add a task"
-        onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
-        scrollEnabled={false}
-        onChangeText={text => {
-          if (!stopPropagation.current) {
-            onTextChange(item, text);
+        onFocus={() => {
+          setFocus(true);
+        }}
+        onBlur={() => {
+          setFocus(false);
+          if (item.title !== text) {
+            onSave(item, text);
           }
         }}
+        onChangeText={text => {
+          setText(text);
+        }}
+        scrollEnabled={false}
         p="s"
         fontSize="p1"
-        value={item.title}
+        value={focus ? text : item.title}
         multiline
         color={
           focus ? 'primary' : item.checked ? 'textPlaceholder' : 'textPrimary'
         }
         onKeyPress={({nativeEvent}) => {
-          stopPropagation.current = false;
-          if (nativeEvent.key === 'Backspace' && !item.title) {
+          console.log('Pressed:', nativeEvent.key);
+          if (nativeEvent.key === 'Backspace' && !text) {
             onDelete(item);
           }
 
           if (nativeEvent.key === 'Enter') {
-            stopPropagation.current = true;
+            setText(text.substring(0, text.length - 1));
             newTask(item);
           }
         }}

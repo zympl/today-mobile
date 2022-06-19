@@ -2,11 +2,11 @@ import React from 'react';
 
 import {Text, View} from '@views';
 
-const Header = ({header, subtitle}) => {
+const Header = ({title, subtitle}) => {
   return (
     <View>
       <Text h1 color="textPrimary">
-        {header}
+        {title}
       </Text>
       {!!subtitle && (
         <Text mt="-12px" h3 color="textPlaceholder">
