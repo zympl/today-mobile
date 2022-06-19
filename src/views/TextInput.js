@@ -2,7 +2,9 @@ import {TextInput as RnTextInput} from 'react-native';
 import styled from 'styled-components/native';
 import {color, space, typography, layout} from 'styled-system';
 
-const TextInput = styled(RnTextInput)`
+const TextInput = styled(RnTextInput).attrs(props => ({
+  placeholderTextColor: props.theme.colors.textPlaceholder,
+}))`
   color: ${({theme}) => theme.colors.textPrimary};
   ${color};
   ${typography};

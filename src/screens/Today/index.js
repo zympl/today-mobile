@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useTheme} from 'styled-components/native';
 import {firebase} from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import dayjs from 'dayjs';
